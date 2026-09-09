@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarqueMed - Recuperar Senha</title>
+    <link rel="icon" href="4659434.png"> 
+    <link rel="stylesheet" href="css/login.css">
+
+</head>
+<body>
+
+    <main id="area-login">
+        <h2>Recuperar sua senha</h2>
+        <p style="text-align: center; margin-bottom: 20px; font-size: 14px; color: #666;">
+            Digite o e-mail cadastrado e enviaremos um link para redefinir sua senha.
+        </p>
+
+        <form id="form-login" onsubmit="enviarEmail(event)">
+            <label>E-mail:</label>
+            <input type="email" id="email-recuperacao" placeholder="Digite seu e-mail cadastrado" required>
+            <button type="submit">Enviar Link de Recuperação</button>
+        </form>
+
+        <div id="links-login">
+            <a href="login.html">Voltar para o Login</a>
+        </div>
+        
+        <p id="msg-recuperar" style="text-align: center; margin-top: 15px; font-weight: bold;"></p>
+    </main>
+
+    <script>
+    function enviarEmail(event) {
+        event.preventDefault(); 
+        
+        let email = document.getElementById("email-recuperacao").value;
+        let msg = document.getElementById("msg-recuperar");
+        
+        
+        msg.style.color = "green";
+        msg.innerText = "Um link de recuperação foi enviado para: " + email;
+        
+        
+        document.getElementById("email-recuperacao").value = "";
+    }
+    </script>
+
+</body>
+</html>

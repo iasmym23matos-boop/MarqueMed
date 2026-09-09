@@ -1,0 +1,150 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+
+    width: 450px;
+
+    background-color: white;
+
+    padding: 30px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+h1 {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
+    color: #1e3c72;
+}
+
+.grupo {
+
+    margin-bottom: 15px;
+}
+
+label {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-weight: bold;
+
+    color: #333;
+}
+input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 14px;
+}
+
+input:focus {
+
+    outline: none;
+
+    border-color: #1e3c72;
+}
+
+.linha {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+.linha .grupo {
+
+    flex: 1;
+}
+
+button {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background-color: #1e3c72;
+
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+
+    transition: 0.3s;
+}
+
+button:hover {
+
+    background-color: #16325c;
+}
+
+#msg {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* CORRIGIDO: Adicionado ponto (.) para virar classe CSS */
+.sucesso {
+    color: green;
+}
+
+.erro {
+    color: red;
+}
+
+/* LINKS REESTILIZADOS COM AS CORES DA MARQUEMED */
+#links-login {
+    display: flex;
+    justify-content: space-between; 
+    margin-top: 20px;               
+}
+
+#links-login a {
+    color: #1e3c72;                 /* Usando o azul escuro do seu cabeçalho */
+    text-decoration: none;          
+    font-size: 14px;                
+    font-weight: 500;
+    transition: color 0.2s ease;    
+}
+
+#links-login a:hover {
+    color: #2a5298;                 /* Azul um pouco mais claro no hover */
+    text-decoration: underline;     
+}

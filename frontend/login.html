@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarqueMed-login </title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            height: 100vh;
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        
+        #cabecalho {
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        #topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        #logo img {
+            height: 50px; /* Ajuste o tamanho do seu logo aqui */
+            border-radius: 8px;
+        }
+        
+        #menu ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+        }
+        
+        #menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        
+        #menu a:hover {
+            color: #d1e2ff;
+        }
+        
+        #cabecalho h1 {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        
+        /* Caixa Branca do Login (Mesmo estilo do Container anterior) */
+        #area-login {
+            width: 450px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            color: #333; /* Cor do texto dentro da caixa */
+        }
+        
+        #area-login h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #1e3c72;
+            font-size: 20px;
+        }
+        
+        /* Formulário e Inputs */
+        #form-login {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 15px;
+        }
+        
+        label:first-of-type {
+            margin-top: 0; /* Remove margem do primeiro label */
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+        
+        /* Botão Entrar */
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #1e3c72;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: 0.3s;
+        }
+        
+        button:hover {
+            background-color: #16325c;
+        }
+        
+        /* Links Inferiores (Organizados em bloco/coluna por serem 3 itens) */
+        #links-login {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            margin-top: 25px;
+            border-top: 1px solid #eee; /* Linha sutil divisória */
+            padding-top: 15px;
+        }
+        
+        #links-login a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        #links-login a:hover {
+            color: #2a5298;
+            text-decoration: underline;
+        }
+        </style>
+</head>
+<body>
+    <header id="cabecalho">
+        <div id=topo>
+        <div id="logo">
+        <a href="cumida.html"><img src="logo_marquemed.jpg"></a>
+        </div>
+            <nav id="menu">
+            <ul>
+            <a href="cadastro.html"><li>Cadastro</li></a> 
+            <a href="cumida.html"><li>Inicio</li></a>
+            </ul>
+            </nav>
+        </div>
+        <h1>Bem- vindo a MarqueMed!</h1>
+    </header>
+   
+    <main id= "area-login">
+        <h2>Faça seu login:</h2>
+
+        <form id="form-login">
+            <label>Usuário:</label>
+            <input type="text" placeholder="Digite seu Usuário" required>
+            <label>Senha</label>
+            <input type="password"placeholder="Digite sua senha"required>
+            <button type="submit">Entrar</button>
+        </form>
+        <div id="links-login">
+            <a href="recuperar.html">Esqueci minha senha</a>
+            <a href="cadastro.html">Novo cadastro</a>
+            <a href="cumida.html">Voltar a pagina principal</a>
+        </div>
+        
+    </main>
+
+    
+</body>
+</html>
