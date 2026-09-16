@@ -58,8 +58,8 @@
             <!-- Barra superior com título dinâmico e busca -->
             <header class="topbar">
                 <div class="topbar-title">
-                    <h1>Saidinha</h1>
-                    <p class="subtitle">Controle de saídas dos alunos</p>
+                    <h1>MarqueMed</h1>
+                    <p class="subtitle">Agendamentto de consultas clinícas</p>
                 </div>
 
                 <!-- Busca rápida contextual (filtra perfis ou usuários conforme tela) -->
@@ -73,17 +73,17 @@
                 <!-- Painel de boas-vindas (tela inicial) -->
                 <section class="card hero" id="bemVindo">
                     <div class="hero-text">
-                        <h1>Saidinha</h1>
-                        <h3>Controle de saídas de forma simples e organizada</h3>
+                        <h1>MarqueMed</h1>
+                        <h3>Agendamento de consultas clinícas de forma simples e organizada</h3>
                         <p>
-                            O <strong>Saidinha</strong> é um sistema desenvolvido para facilitar o controle e o acompanhamento das saídas de alunos durante as aulas.
+                            O <strong>MarqueMed</strong> é um sistema desenvolvido para facilitar o controle e o acompanhamento das consultas médicas.
                         </p>
                         <p>
-                            Com uma interface simples e intuitiva, o sistema permite registrar as saídas, consultar informações e acompanhar os registros de forma organizada, contribuindo para uma rotina escolar mais segura e eficiente.
+                            Com uma interface simples e intuitiva, o sistema permite registrar as saídas, consultar informações e acompanhar os registros de forma organizada.
                         </p>
                         <p><strong>Organize. Registre. Acompanhe.</strong></p>
                         <p>
-                            O Saidinha transforma o controle das saídas em um processo mais rápido, prático e transparente.
+                            O Maquemed transforma o controle das suas consultas em um processo mais rápido, prático e transparente.
                         </p>
                     </div>
                 </section>
@@ -94,7 +94,7 @@
                     <!-- Formulário simples com label associado ao input para acessibilidade -->
                     <form id="formPerfil" onsubmit="event.preventDefault(); cadastrarPerfil(); return false;">
                         <label for="descricaoPerfil">Descrição do Perfil</label>
-                        <input type="text" id="descricaoPerfil" placeholder="Ex: Aluno, Professor" aria-label="Descrição do perfil">
+                        <input type="text" id="descricaoPerfil" placeholder="Ex: paciente, médico ou clinica" aria-label="Descrição do perfil">
                         <div class="form-actions">
                             <button class="btn" type="submit">Cadastrar</button>
                             <button class="btn ghost" type="button" onclick="cancelEditsAndGo('bemVindo')">Cancelar</button>
@@ -133,8 +133,8 @@
                 <section class="card" id="telaUsuarioCadastro" style="display:none;">
                     <h2>Cadastrar Usuário</h2>
                     <form id="formUsuario" onsubmit="event.preventDefault(); cadastrarUsuario(); return false;">
-                        <label for="inputRa">RA</label>
-                        <input type="text" id="inputRa" placeholder="RA do aluno">
+                        <label for="inputRa">ID do paciente</label>
+                        <input type="text" id="inputRa" placeholder="Número da carterinha do convenio, ou número do sus">
 
                         <label for="inputNome">Nome</label>
                         <input type="text" id="inputNome" placeholder="Nome completo">
