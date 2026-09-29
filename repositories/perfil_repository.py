@@ -1,51 +1,207 @@
-from database.conexao import conexao
+# Importa a classe Conexao.
+# Essa classe é responsável por abrir a conexão
+# com o banco de dados SQLite.
+from database.conexao import Conexao
+
+
+# Importa a classe Perfil.
+# Essa classe representa o modelo da tabela perfil.
 from models.perfil import Perfil
 
 
+# Cria a classe responsável pelo acesso aos dados
+# da tabela perfil.
 class PerfilRepository:
+
+    # ============================================================
+    # INSERIR
+    # ============================================================
+
+    # Método responsável por inserir um novo perfil
+    # no banco de dados.
+    #
+    # Recebe um objeto da classe Perfil.
     def inserir(self, perfil: Perfil):
-        conn = conexao.conectar()
-        cursor = conn.cursor()
+
+        # Abre uma conexão com o banco de dados.
+        conexao = Conexao.conectar()
+
+        # Cria um cursor para executar comandos SQL.
+        cursor = conexao.cursor()
+
+        # Executa o comando SQL para inserir o perfil.
+        # O símbolo ? representa um parâmetro.
         cursor.execute(
             """
-            INSERT INTO perfil (ds_perfil) VALUES (?)
-            """,
-            (perfil.ds_perfil,)
+            INSERT INTO perfil (ds_perfil)
+            VALUES (?)
+        """,
+            (
+                # Envia a descrição do perfil para o banco.
+                perfil.ds_perfil,
+            ),
         )
-        conn.commit()
-        conn.close()
 
+        # Obtém o id gerado pelo banco para o registro inserido.
+        last_id = cursor.lastrowid
+
+        # Confirma a alteração realizada no banco.
+        conexao.commit()
+
+        # Fecha a conexão com o banco.
+        conexao.close()
+
+        # Retorna o id do novo registro.
+        return last_id
+
+
+    # ============================================================
+    # LISTAR
+    # ============================================================
+
+    # Método responsável por buscar todos os perfis
+    # cadastrados no banco.
     def listar(self):
-        conn = conexao.conectar()
-        cursor = conn.cursor()
-        cursor.execute("SELECT id_perfil, ds_perfil FROM perfil")
-        rows = cursor.fetchall()
-        conn.close()
-        return [Perfil(id_perfil=row[0], ds_perfil=row[1]) for row in rows]
 
+        # Abre uma conexão com o banco.
+        conexao = Conexao.conectar()
+
+        # Cria um cursor para executar o comando SQL.
+        cursor = conexao.cursor()
+
+        # Executa uma consulta buscando todos os perfis.
+        cursor.execute("""
+            SELECT
+                id_perfil,
+                ds_perfil
+            FROM perfil
+            ORDER BY ds_perfil
+        """)
+
+        # Recupera todos os registros encontrados.
+        registros = cursor.fetchall()
+
+        # Fecha a conexão com o banco.
+        conexao.close()
+
+        # Converte os registros (tuplas) em uma lista de dicionários
+        # para que a API retorne JSON com chaves legíveis.
+        perfis = []
+        for registro in registros:
+            perfis.append({
+                "id_perfil": registro[0],
+                "ds_perfil": registro[1]
+            })
+
+        return perfis
+
+
+    # ============================================================
+    # BUSCAR POR ID
+    # ============================================================
+
+    # Método responsável por buscar um perfil
+    # utilizando o seu identificador.
     def buscar_por_id(self, id_perfil):
-        conn = conexao.conectar()
-        cursor = conn.cursor()
-        cursor.execute("SELECT id_perfil, ds_perfil FROM perfil WHERE id_perfil = ?", (id_perfil,))
-        row = cursor.fetchone()
-        conn.close()
-        if not row:
-            return None
-        return Perfil(id_perfil=row[0], ds_perfil=row[1])
 
-    def excluir(self, id_perfil):
-        conn = conexao.conectar()
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM perfil WHERE id_perfil = ?", (id_perfil,))
-        conn.commit()
-        conn.close()
-    
+        # Abre uma conexão com o banco.
+        conexao = Conexao.conectar()
+
+        # Cria um cursor para executar o comando SQL.
+        cursor = conexao.cursor()
+
+        # Executa a consulta buscando o perfil pelo ID.
+        cursor.execute("""
+            SELECT
+                id_perfil,
+                ds_perfil
+            FROM perfil
+            WHERE id_perfil = ?
+        """, (
+
+            # Envia o ID como parâmetro da consulta.
+            id_perfil,
+        ))
+
+        # Recupera o primeiro registro encontrado.
+        registro = cursor.fetchone()
+
+        # Fecha a conexão.
+        conexao.close()
+
+        # Se encontrou o registro, converte para dicionário.
+        if registro:
+            return {
+                "id_perfil": registro[0],
+                "ds_perfil": registro[1]
+            }
+
+        # Caso não exista, será retornado None.
+        return None
+
+
+    # ============================================================
+    # ATUALIZAR
+    # ============================================================
+
+    # Método responsável por alterar um perfil
+    # já existente no banco.
     def atualizar(self, perfil: Perfil):
-        conn = conexao.conectar()
-        cursor = conn.cursor()
-        cursor.execute(
-            "UPDATE perfil SET ds_perfil = ? WHERE id_perfil = ?",
-            (perfil.ds_perfil, perfil.id_perfil)
-        )
-        conn.commit()
-        conn.close()
+
+        # Abre uma conexão com o banco.
+        conexao = Conexao.conectar()
+
+        # Cria um cursor para executar o SQL.
+        cursor = conexao.cursor()
+
+        # Executa o comando UPDATE.
+        cursor.execute("""
+            UPDATE perfil
+            SET
+                ds_perfil = ?
+            WHERE id_perfil = ?
+        """, (
+
+            # Novo valor da descrição do perfil.
+            perfil.ds_perfil,
+
+            # Identifica qual perfil será alterado.
+            perfil.id_perfil,
+        ))
+
+        # Confirma a alteração no banco.
+        conexao.commit()
+
+        # Fecha a conexão.
+        conexao.close()
+
+
+    # ============================================================
+    # EXCLUIR
+    # ============================================================
+
+    # Método responsável por excluir um perfil
+    # do banco de dados.
+    def excluir(self, id_perfil):
+
+        # Abre uma conexão com o banco.
+        conexao = Conexao.conectar()
+
+        # Cria um cursor para executar o comando SQL.
+        cursor = conexao.cursor()
+
+        # Executa o comando DELETE.
+        cursor.execute("""
+            DELETE FROM perfil
+            WHERE id_perfil = ?
+        """, (
+
+            # Informa qual perfil será excluído.
+            id_perfil,
+        ))
+
+        # Confirma a exclusão no banco.
+        conexao.commit()
+
+        # Fecha a conexão.
+        conexao.close()

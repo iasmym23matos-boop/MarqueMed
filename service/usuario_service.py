@@ -1,9 +1,24 @@
-from models.usuario import usuario
+# Importa a classe Usuario.
+# Essa classe representa o modelo dos dados do usuário.
+from models.usuario import Usuario
+
+
+# Importa o Repository responsável pelo acesso
+# aos dados da tabela usuario no banco SQLite.
 from repositories.usuario_repository import UsuarioRepository
 
 
+# Cria a classe responsável pelas regras de negócio
+# relacionadas aos usuários.
 class UsuarioService:
+
+    # Método construtor da classe.
     def __init__(self):
+
+        # Cria uma instância do UsuarioRepository.
+        #
+        # O Service utilizará o Repository sempre que
+        # precisar consultar ou alterar o banco de dados.
         self.repository = UsuarioRepository()
 
 
@@ -12,7 +27,7 @@ class UsuarioService:
     # ============================================================
 
     # Método responsável por cadastrar um novo usuário.
-    def cadastrar(self, usuario: usuario):
+    def cadastrar(self, usuario: Usuario):
 
         # Verifica se o nome foi informado.
         if not usuario.nome:
@@ -21,9 +36,11 @@ class UsuarioService:
             raise ValueError("O nome do usuário é obrigatório.")
 
 
-        # Verifica se o CPF foi informado.
-        if not usuario.cpf:
-            raise ValueError("O CPF do usuário é obrigatório.")
+        # Verifica se o RA foi informado.
+        if not usuario.ra:
+
+            # Interrompe a execução e informa o problema.
+            raise ValueError("O RA do usuário é obrigatório.")
 
 
         # Verifica se o e-mail foi informado.
@@ -65,8 +82,8 @@ class UsuarioService:
 
         # Depois que todas as regras foram validadas,
         # envia o usuário para o Repository realizar
-        # a gravação no banco.
-        self.repository.inserir(usuario)
+        # a gravação no banco e retorna o id criado.
+        return self.repository.inserir(usuario)
 
 
     # ============================================================
@@ -116,7 +133,7 @@ class UsuarioService:
     # ============================================================
 
     # Método responsável por atualizar um usuário existente.
-    def atualizar(self, usuario: usuario):
+    def atualizar(self, usuario: Usuario):
 
         # Verifica se o ID do usuário foi informado.
         if not usuario.id_usuario:
@@ -145,9 +162,11 @@ class UsuarioService:
             raise ValueError("O nome do usuário é obrigatório.")
 
 
-        # Verifica se o CPF foi informado.
-        if not usuario.cpf:
-            raise ValueError("O CPF do usuário é obrigatório.")
+        # Verifica se o RA foi informado.
+        if not usuario.ra:
+
+            # Impede a atualização sem RA.
+            raise ValueError("O RA do usuário é obrigatório.")
 
 
         # Verifica se o e-mail foi informado.
@@ -166,22 +185,15 @@ class UsuarioService:
 
         # Verifica se já existe outro usuário utilizando
         # o mesmo e-mail.
-        usuario_email = self.repository.buscar_por_email(
-            usuario.email
-        )
-
+        usuario_email = self.repository.buscar_por_email(usuario.email)
 
         # Caso exista um usuário com o mesmo e-mail,
         # verifica se ele é diferente do usuário atual.
         if usuario_email:
-
-            # Compara os IDs dos usuários.
-            if usuario_email.id_usuario != usuario.id_usuario:
-
-                # Impede a utilização de e-mail duplicado.
-                raise ValueError(
-                    "O e-mail informado já está sendo utilizado."
-                )
+            # usuario_email pode ser um dicionário (repository) ou um objeto.
+            uid = usuario_email.get('id_usuario') if isinstance(usuario_email, dict) else getattr(usuario_email, 'id_usuario', None)
+            if uid != usuario.id_usuario:
+                raise ValueError("O e-mail informado já está sendo utilizado.")
 
 
         # Depois de todas as validações,
@@ -245,28 +257,40 @@ class UsuarioService:
         #
         # Observe que o Repository não está validando
         # o login. Ele apenas busca o usuário.
-        usuario = self.repository.buscar_por_email(email)
 
+        # Suporte temporário para usuário administrador local (hardcoded)
+        # Observação de segurança: este bloco é apenas para facilitar testes
+        # e deve ser removido ou substituído por autenticação segura (JWT
+        # + senhas hasheadas) em produção.
+        if email == 'admin' and senha == '1234':
+            # Retorna um usuário virtual representando o admin.
+            #
+            # IMPORTANTE: id_perfil = 0 aqui, pois nenhum perfil real
+            # da tabela "perfil" usa esse ID (Aluno=1, Professor=2,
+            # Equipe de Apoio=3). Usar um número que já pertence a um
+            # perfil real (como 1) faria o sistema de permissões
+            # confundir o admin com aquele perfil.
+            return {
+                'id_usuario': 0,
+                'ra': '',
+                'nome': 'Administrador',
+                'id_perfil': 0,
+                'email': 'admin',
+                'senha': senha,
+                'ds_perfil': 'Administrador'
+            }
+
+        usuario = self.repository.buscar_por_email(email)
 
         # Verifica se o usuário foi encontrado.
         if not usuario:
-
-            # Não informa se o problem foi o e-mail ou senha.
-            # Isso é uma boa prática de segurança.
             raise ValueError("E-mail ou senha inválidos.")
 
+        # Obtém a senha armazenada (suporta dicionário ou objeto).
+        senha_armazenada = usuario.get('senha') if isinstance(usuario, dict) else getattr(usuario, 'senha', None)
 
-        # Compara a senha informada pelo usuário
-        # com a senha armazenada.
-        if usuario.senha != senha:
-
-            # Caso as senhas sejam diferentes,
-            # o login será recusado.
+        if senha_armazenada != senha:
             raise ValueError("E-mail ou senha inválidos.")
 
-
-        # Se chegou até aqui, significa que todas
-        # as validações foram aprovadas.
-        #
         # Retorna o usuário autenticado.
         return usuario
