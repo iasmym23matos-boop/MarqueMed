@@ -2,15 +2,42 @@
 # O FastAPI utiliza o Pydantic para validar
 # os dados recebidos nas requisições.
 from pydantic import BaseModel
-from datetime import date
-from typing import Optional
 
 
+# Cria o Schema utilizado para receber
+# os dados de um usuário.
 class UsuarioSchema(BaseModel):
-    cpf: str
-    sexo: Optional[str] = None
-    data_de_nascimento: Optional[date] = None
+
+    # RA do aluno ou identificação do usuário.
+    ra: str
+
+    # Nome completo do usuário.
     nome: str
-    id_perfil: Optional[int] = None
+
+    # Identificador do perfil do usuário.
+    id_perfil: int
+
+    # E-mail utilizado pelo usuário.
+    email: str
+
+    # Senha utilizada para autenticação.
+    senha: str
+
+    # ID do usuário logado (para validação de permissão).
+    # Usado apenas para verificar se tem direito de gerenciar usuários.
+    # Em produção, seria extraído do token JWT.
+    id_usuario_logado: int = 0
+
+    # Perfil do usuário logado (opcional, para validação).
+    id_perfil_logado: int = 0
+
+
+class LoginSchema(BaseModel):
+    """Schema para requisição de login."""
     email: str
     senha: str
+
+# Observação:
+# - `LoginSchema` valida os dados recebidos na rota de autenticação.
+# - Usamos `email` como campo de identificação, mas o frontend aceita
+#   também o valor especial 'admin' (caso de desenvolvimento).
